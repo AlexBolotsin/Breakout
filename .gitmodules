@@ -1,0 +1,6 @@
+[submodule "BreakoutProject/3rdParty/SDL"]
+	path = BreakoutProject/3rdParty/SDL
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "BreakoutProject/3rdParty/SDL_ttf"]
+	path = BreakoutProject/3rdParty/SDL_ttf
+	url = git@github.com:libsdl-org/SDL_ttf.git
