@@ -9,7 +9,7 @@ class Screen
 public:
 	Screen(std::string title);
 
-	virtual void HandleEvents() = 0;
+	virtual void HandleEvents(float diff) = 0;
 	virtual void Load(SDL_Renderer* renderer) = 0;
 	virtual void Draw(SDL_Renderer* renderer) = 0;
 	virtual void Clear() = 0;

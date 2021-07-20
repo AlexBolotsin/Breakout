@@ -37,7 +37,7 @@ public:
 
 	void Clear() override;
 	void Load(SDL_Renderer* renderer) override;
-	void HandleEvents() override;
+	void HandleEvents(float diff) override;
 	void Draw(SDL_Renderer* renderer) override;
 };
 

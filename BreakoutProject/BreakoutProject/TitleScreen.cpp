@@ -50,7 +50,7 @@ void TitleScreen::Load(SDL_Renderer* renderer)
 	startButton = { {400, 250, buttonTexture->getWidth(), buttonTexture->getHeight() }, {255, 255, 255, 255}, false, []() { Signal().Send(Signal::Code::NEXT_SCREEN, 1); } };
 }
 
-void TitleScreen::HandleEvents()
+void TitleScreen::HandleEvents(float diff)
 {
 	SDL_Event evt;    // no need for new/delete, stack is fine
 

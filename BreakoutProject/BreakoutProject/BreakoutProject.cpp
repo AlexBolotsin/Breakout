@@ -4,12 +4,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <vector>
+#include <chrono>
 #include "Texture.h"
 #include "TitleScreen.h"
 #include "GameScreen.h"
 
 bool exitVal = false;
-int sceneIndex = 0;
+int sceneIndex = 1;
 
 int WinMain(int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -35,15 +36,24 @@ int WinMain(int argc, char* argv[]) {
 		screen->Load(renderer);
 
 
+	auto last = std::chrono::high_resolution_clock::now();
 	while (!exitVal) {
-		auto& screen = screens[sceneIndex];
-		screen->HandleEvents();
+		auto current = std::chrono::high_resolution_clock::now();
+		float diff = std::chrono::duration_cast<std::chrono::milliseconds>(current - last).count();
+		diff = diff > 1'000.f / 60.f * 5.f ? 1'000.f / 60.f : diff;
+		last = std::chrono::high_resolution_clock::now();
 
+		auto& screen = screens[sceneIndex];
+
+		screen->HandleEvents(diff);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
 		screen->Draw(renderer);
 		SDL_RenderPresent(renderer);
+
+		auto delay = 1'000.f/60.f - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - current).count();
+		SDL_Delay(delay > 0 ? delay : 0);
 	}
 
 	for (auto& screen : screens)
