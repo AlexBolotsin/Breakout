@@ -28,12 +28,13 @@ public:
 	void setAlpha(Uint8 alpha);
 
 	//Renders texture at given point
-	void render(int x, int y, SDL_Rect* clip = NULL);
+	void render(int x, int y, SDL_Rect* clip = NULL, float scale = 1.f);
 
 	//Gets image dimensions
 	int getWidth();
 	int getHeight();
 
+	SDL_Texture* getTexture() { return mTexture; }
 private:
 	//The actual hardware texture
 	SDL_Texture* mTexture;

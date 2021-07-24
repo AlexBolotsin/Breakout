@@ -30,6 +30,8 @@ void TitleScreen::Clear()
 		buttonTexture->free();
 	if (titleTexture)
 		titleTexture->free();
+	if (producedTexture)
+		producedTexture->free();
 }
 
 void TitleScreen::Load(SDL_Renderer* renderer)
@@ -39,15 +41,24 @@ void TitleScreen::Load(SDL_Renderer* renderer)
 	if (!buttonTexture)
 	{
 		buttonTexture = std::make_shared<Texture>(renderer);
-		buttonTexture->loadFromFile("D:\\Breakout\\BreakoutProject\\Assets\\Button.png");
+		buttonTexture->loadFromFile("Button.png");
 	}
 
 	if (!titleTexture)
 	{
 		titleTexture = std::make_shared<Texture>(renderer);
-		titleTexture->loadFromFile("D:\\Breakout\\BreakoutProject\\Assets\\Title.png");
+		titleTexture->loadFromFile("Title.png");
 	}
-	startButton = { {400, 250, buttonTexture->getWidth(), buttonTexture->getHeight() }, {255, 255, 255, 255}, false, []() { Signal().Send(Signal::Code::NEXT_SCREEN, 1); } };
+
+	if (!producedTexture)
+	{
+		producedTexture = std::make_shared<Texture>(renderer);
+		producedTexture->loadFromFile("produced.png");
+	}
+
+	startButton = { {400 - buttonTexture->getWidth()/2, 250, buttonTexture->getWidth(), buttonTexture->getHeight() },
+		{255, 255, 255, 255}, false,
+		[]() { Signal().Send(Signal::Code::NEXT_SCREEN, 1); } };
 }
 
 void TitleScreen::HandleEvents(float diff)
@@ -70,6 +81,9 @@ void TitleScreen::HandleEvents(float diff)
 
 void TitleScreen::Draw(SDL_Renderer* renderer)
 {
+	SDL_SetRenderDrawColor(renderer, 170, 200, 220, 255);
+	SDL_RenderClear(renderer);
 	titleTexture->render(200, 60);
 	buttonTexture->render(startButton.draw_rect.x, startButton.draw_rect.y);
+	producedTexture->render(400 - buttonTexture->getWidth() / 2, 460);
 }

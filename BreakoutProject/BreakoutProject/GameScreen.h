@@ -1,70 +1,60 @@
 #pragma once
 #include "Screen.h"
 #include "Texture.h"
+#include "Vec2d.h"
 #include <memory>
 #include <vector>
+
+class ParticleExample;
 
 class GameScreen :
     public Screen
 {
-
     struct Block {
         SDL_Rect rect;
         bool crushed = false;
-    };
+	};
+
+	enum class GameState {
+		STATE_NONE,
+		STATE_PREGAME,
+		STATE_IN_GAME,
+        STATE_WIN,
+        STATE_LOSE
+	} state = GameState::STATE_PREGAME;
 
     std::vector<Block> blockGroup;
 
     std::shared_ptr<Texture> platformTexture;
 	std::shared_ptr<Texture> blockTexture;
 	std::shared_ptr<Texture> ballTexture;
+	std::shared_ptr<Texture> dustTexture;
+	std::shared_ptr<Texture> winTexture;
+	std::shared_ptr<Texture> loseTexture;
 
-    struct Vec2d
-    {
-        float x = 0;
-        float y = 0;
-
-		Vec2d& operator+=(const Vec2d& val);
-		Vec2d& operator*=(const Vec2d& val);
-        Vec2d operator+(const Vec2d& val);
-		Vec2d operator-(const Vec2d& val);
-        Vec2d operator*(const Vec2d& val);
-		Vec2d operator*(const float& val);
-		Vec2d rotate(float angle) const;
-		float length() const;
-
-		Vec2d norm();
-	};
     Vec2d platformPos;
     Vec2d ballPos;
 	Vec2d ballVelocity;
+    Vec2d windowSize;
+    float velocityLimit;
+    
+	float scale = 1.f;
+    bool enableCheat = false;
 
-	struct Curve {
-		std::vector<Vec2d> points;
-
-		Curve();
-
-		Vec2d getBezierPoint(float t) {
-			std::vector<Vec2d> tmpPoints(points);
-			int i = tmpPoints.size() - 1;
-			while (i > 0) {
-				for (int k = 0; k < i; k++)
-					tmpPoints[k] = tmpPoints[k] + (tmpPoints[k + 1] - tmpPoints[k]) * t;
-				i--;
-			}
-			Vec2d answer = tmpPoints[0];
-			return answer;
-		}
-	};
+    std::shared_ptr<ParticleExample> dustParticle;
+    std::shared_ptr<ParticleExample> burningBallParticle;
 
 public:
 
     GameScreen(std::string title);
     void Draw(SDL_Renderer* renderer) override;
     void HandleEvents(float diff) override;
-    void Load(SDL_Renderer* renderer) override;
-    void Clear() override;
-private:
-	Vec2d fuse(Vec2d first, Vec2d second, float factor);
-};
 
+	void PlayDustParticles();
+
+	void Load(SDL_Renderer* renderer) override;
+    void Clear() override;
+
+private:
+    void Reset();
+};

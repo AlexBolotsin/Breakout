@@ -10,9 +10,11 @@
 #include "GameScreen.h"
 
 bool exitVal = false;
-int sceneIndex = 1;
+int sceneIndex = 0;
 
 int WinMain(int argc, char* argv[]) {
+	const float MSPerFrame = 1'000.f / 60.f;
+
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 	SDL_Window* window = NULL;
@@ -30,29 +32,30 @@ int WinMain(int argc, char* argv[]) {
 		return 1;
 	}
 
-	std::vector<Screen*> screens{ new TitleScreen("Title") , new GameScreen("Game") };
+	std::vector<std::shared_ptr<Screen>> screens{ std::make_shared<TitleScreen>("Title") , std::make_shared<GameScreen>("Game") };
 
 	for (auto& screen : screens)
 		screen->Load(renderer);
-
 
 	auto last = std::chrono::high_resolution_clock::now();
 	while (!exitVal) {
 		auto current = std::chrono::high_resolution_clock::now();
 		float diff = std::chrono::duration_cast<std::chrono::milliseconds>(current - last).count();
-		diff = diff > 1'000.f / 60.f * 5.f ? 1'000.f / 60.f : diff;
+
+		// after breakpoint reset the time frame diff
+		diff = diff > MSPerFrame * 5.f ? MSPerFrame : diff;
 		last = std::chrono::high_resolution_clock::now();
 
 		auto& screen = screens[sceneIndex];
 
 		screen->HandleEvents(diff);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderClear(renderer);
 
 		screen->Draw(renderer);
 		SDL_RenderPresent(renderer);
 
-		auto delay = 1'000.f/60.f - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - current).count();
+		// TODO cup physics at some num of frames
+
+		auto delay = MSPerFrame - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - current).count();
 		SDL_Delay(delay > 0 ? delay : 0);
 	}
 

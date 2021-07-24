@@ -17,6 +17,7 @@ class TitleScreen :
 
 	std::shared_ptr<Texture> buttonTexture;
 	std::shared_ptr<Texture> titleTexture;
+	std::shared_ptr<Texture> producedTexture;
 	typedef struct {
 		SDL_Rect draw_rect;    // dimensions of button
 		struct {
