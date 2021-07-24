@@ -336,9 +336,9 @@ void GameScreen::Load(SDL_Renderer* renderer)
 	//burningBallParticle->setAngle(0.f);
 	burningBallParticle->stopSystem();
 
+	Reset();
 	velocityLimit = ballVelocity.length() * 2.66f;
 	scale = 1.5f;
-	Reset();
 }
 
 void GameScreen::Clear()
