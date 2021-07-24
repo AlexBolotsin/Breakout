@@ -1,9 +1,3 @@
 [submodule "BreakoutProject/3rdParty/SDL"]
 	path = BreakoutProject/3rdParty/SDL
 	url = https://github.com/libsdl-org/SDL.git
-[submodule "BreakoutProject/3rdParty/SDL_ttf"]
-	path = BreakoutProject/3rdParty/SDL_ttf
-	url = git@github.com:libsdl-org/SDL_ttf.git
-[submodule "BreakoutProject/3rdParty/particles/SDL2-particles"]
-	path = BreakoutProject/3rdParty/particles/SDL2-particles
-	url = git@github.com:scarsty/SDL2-particles.git
