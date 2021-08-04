@@ -13,5 +13,7 @@ public:
 	virtual void Load(SDL_Renderer* renderer) = 0;
 	virtual void Draw(SDL_Renderer* renderer) = 0;
 	virtual void Clear() = 0;
+
+	virtual ~Screen() { }
 };
 

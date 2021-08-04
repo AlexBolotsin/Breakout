@@ -1,5 +1,9 @@
 #include "Curve.h"
 
+Curve::Curve()
+{
+}
+
 Vec2d Curve::getBezierPoint(float t) {
 	std::vector<Vec2d> tmpPoints(points);
 	int i = tmpPoints.size() - 1;

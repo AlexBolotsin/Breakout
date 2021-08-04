@@ -84,8 +84,3 @@ Vec2d fuse(Vec2d first, Vec2d second, float factor)
 	return { mix(first.x, second.x, factor), mix(first.y, second.y, factor) };
 }
 
-
-Vec2d operator+(const Vec2d& left, const Vec2d& right)
-{
-	return { left.x + right.x, left.y + right.y };
-}
